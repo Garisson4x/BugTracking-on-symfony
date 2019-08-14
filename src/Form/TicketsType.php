@@ -15,10 +15,12 @@ class TicketsType extends AbstractType
             ->add('title')
             ->add('type')
             ->add('status')
-            ->add('description')
+            ->add('desription')
             ->add('file')
             ->add('file_name')
-            ->add('project_id')
+            ->add('created_at')
+            ->add('updated_at')
+            ->add('project')
         ;
     }
 

@@ -24,17 +24,17 @@ class Projects
     private $title;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created_at;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tickets", mappedBy="project_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Tickets", mappedBy="project")
      */
     private $tickets;
 
@@ -65,7 +65,7 @@ class Projects
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(?\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
 
@@ -77,7 +77,7 @@ class Projects
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
 
@@ -96,7 +96,7 @@ class Projects
     {
         if (!$this->tickets->contains($ticket)) {
             $this->tickets[] = $ticket;
-            $ticket->setProjectId($this);
+            $ticket->setProject($this);
         }
 
         return $this;
@@ -107,11 +107,15 @@ class Projects
         if ($this->tickets->contains($ticket)) {
             $this->tickets->removeElement($ticket);
             // set the owning side to null (unless already changed)
-            if ($ticket->getProjectId() === $this) {
-                $ticket->setProjectId(null);
+            if ($ticket->getProject() === $this) {
+                $ticket->setProject(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->title;
     }
 }

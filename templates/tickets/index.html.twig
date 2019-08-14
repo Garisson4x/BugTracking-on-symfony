@@ -12,11 +12,11 @@
                 <th>Title</th>
                 <th>Type</th>
                 <th>Status</th>
-                <th>Description</th>
+                <th>Desription</th>
                 <th>File</th>
                 <th>File_name</th>
                 <th>Created_at</th>
-                <th>Update_at</th>
+                <th>Updated_at</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -27,11 +27,11 @@
                 <td>{{ ticket.title }}</td>
                 <td>{{ ticket.type }}</td>
                 <td>{{ ticket.status }}</td>
-                <td>{{ ticket.description }}</td>
+                <td>{{ ticket.desription }}</td>
                 <td>{{ ticket.file }}</td>
                 <td>{{ ticket.fileName }}</td>
                 <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ ticket.updateAt ? ticket.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('tickets_show', {'id': ticket.id}) }}">show</a>
                     <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>

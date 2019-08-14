@@ -32,9 +32,9 @@ class Tickets
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $desription;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -47,20 +47,19 @@ class Tickets
     private $file_name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\projects", inversedBy="tickets")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $project_id;
-
-    /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created_at;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $update_at;
+    private $updated_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Projects", inversedBy="tickets")
+     */
+    private $project;
 
     public function getId(): ?int
     {
@@ -103,14 +102,14 @@ class Tickets
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDesription(): ?string
     {
-        return $this->description;
+        return $this->desription;
     }
 
-    public function setDescription(?string $description): self
+    public function setDesription(string $desription): self
     {
-        $this->description = $description;
+        $this->desription = $desription;
 
         return $this;
     }
@@ -139,38 +138,38 @@ class Tickets
         return $this;
     }
 
-    public function getProjectId(): ?projects
-    {
-        return $this->project_id;
-    }
-
-    public function setProjectId(?projects $project_id): self
-    {
-        $this->project_id = $project_id;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(?\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->update_at;
+        return $this->updated_at;
     }
 
-    public function setUpdateAt(\DateTimeInterface $update_at): self
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
-        $this->update_at = $update_at;
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getProject(): ?Projects
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Projects $project): self
+    {
+        $this->project = $project;
 
         return $this;
     }

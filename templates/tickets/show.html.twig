@@ -3,48 +3,52 @@
 {% block title %}Tickets{% endblock %}
 
 {% block body %}
-
-    <h1>Tickets index</h1>
+    <h1>Tickets</h1>
 
     <table class="table">
-        <thead>
+        <tbody>
             <tr>
                 <th>Id</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Description</th>
-                <th>File</th>
-                <th>File_name</th>
-                <th>Created_at</th>
-                <th>Update_at</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ticket in tickets %}
-            <tr>
                 <td>{{ ticket.id }}</td>
-                <td>{{ ticket.title }}</td>
-                <td>{{ ticket.type }}</td>
-                <td>{{ ticket.status }}</td>
-                <td>{{ ticket.description }}</td>
-                <td>{{ ticket.file }}</td>
-                <td>{{ ticket.fileName }}</td>
-                <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ ticket.updateAt ? ticket.updateAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('tickets_show', {'id': ticket.id}) }}">show</a>
-                    <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
-                </td>
             </tr>
-        {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <th>Title</th>
+                <td>{{ ticket.title }}</td>
             </tr>
-        {% endfor %}
+            <tr>
+                <th>Type</th>
+                <td>{{ ticket.type }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ ticket.status }}</td>
+            </tr>
+            <tr>
+                <th>Desription</th>
+                <td>{{ ticket.desription }}</td>
+            </tr>
+            <tr>
+                <th>File</th>
+                <td>{{ ticket.file }}</td>
+            </tr>
+            <tr>
+                <th>File_name</th>
+                <td>{{ ticket.fileName }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('tickets_new') }}">Create new</a>
+    <a href="{{ path('tickets_index') }}">back to list</a>
+
+    <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
+
+    {{ include('tickets/_delete_form.html.twig') }}
 {% endblock %}

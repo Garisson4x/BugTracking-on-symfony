@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Projects;
 use App\Form\ProjectsType;
 use App\Repository\ProjectsRepository;
+use App\Entity\Tickets;
+use App\Form\TicketsType;
+use App\Repository\TicketsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +21,11 @@ class ProjectsController extends AbstractController
     /**
      * @Route("/", name="projects_index", methods={"GET"})
      */
-    public function index(ProjectsRepository $projectsRepository): Response
+    public function index(ProjectsRepository $projectsRepository, TicketsRepository $ticketsRepository): Response
     {
         return $this->render('projects/index.html.twig', [
             'projects' => $projectsRepository->findAll(),
+            'tickets' => $ticketsRepository->findAll(),
         ]);
     }
 
@@ -51,10 +55,11 @@ class ProjectsController extends AbstractController
     /**
      * @Route("/{id}", name="projects_show", methods={"GET"})
      */
-    public function show(Projects $project): Response
+    public function show(Projects $project, TicketsRepository $ticketsRepository): Response
     {
         return $this->render('projects/show.html.twig', [
             'project' => $project,
+            'tickets' => $ticketsRepository->findAll(),
         ]);
     }
 
