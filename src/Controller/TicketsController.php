@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tickets;
+use App\Entity\Projects;
 use App\Form\TicketsType;
 use App\Repository\TicketsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/tickets")
+ * @Route("/projects/{project_id}/tickets")
  */
 class TicketsController extends AbstractController
 {
@@ -30,21 +31,25 @@ class TicketsController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $projectId = $request->attributes->get('project_id');
         $ticket = new Tickets();
         $form = $this->createForm(TicketsType::class, $ticket);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $project = $this->getDoctrine()->getRepository(Projects::class)->find($projectId);
+            $ticket->setProject($project);
             $entityManager->persist($ticket);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tickets_index');
+            return $this->redirectToRoute('projects_show', ['id' => $projectId]);
         }
 
         return $this->render('tickets/new.html.twig', [
             'ticket' => $ticket,
             'form' => $form->createView(),
+            'project_id' => $projectId,
         ]);
     }
 

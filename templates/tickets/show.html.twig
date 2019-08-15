@@ -46,9 +46,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('tickets_index') }}">back to list</a>
+    <a href="{{ path('projects_show', {'id': ticket.project.id}) }}">back to project</a>
 
-    <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
+    <a href="{{ path('tickets_edit', {'project_id': ticket.project.id, 'id': ticket.id}) }}">edit</a>
 
     {{ include('tickets/_delete_form.html.twig') }}
 {% endblock %}

@@ -58,8 +58,8 @@
                 <td>{{ ticket.file }}</td>
                 <td>{{ ticket.fileName }}</td>
                 <td>
-                    <a href="{{ path('tickets_show', {'id': ticket.id}) }}">show</a>
-                    <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
+                    <a href="{{ path('tickets_show', {'project_id': project.id, 'id': ticket.id}) }}">show</a>
+                    <a href="{{ path('tickets_edit', {'project_id': project.id, 'id': ticket.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -70,6 +70,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('tickets_new') }}">Create new</a>
+    <a href="{{ path('tickets_new', {'project_id': project.id}) }}">Create new</a>
 
 {% endblock %}
