@@ -7,5 +7,5 @@
 
     {{ include('tickets/_form.html.twig') }}
 
-    <a href="{{ path('tickets_index') }}">back to list</a>
+    <a href="{{ path('tickets_index', {'project_id': project_id}) }}">back to list</a>
 {% endblock %}
