@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Projects</h1>
 
-    <table class="table">
+    <table class="table table-bordered">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -34,7 +34,7 @@
 
     <h1>Tickets</h1>
 
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
@@ -70,6 +70,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('tickets_new', {'project_id': project.id}) }}">Create new</a>
-
+    <a class="btn btn-success" href="{{ path('tickets_new', {'project_id': project.id}) }}">Create new</a>
 {% endblock %}

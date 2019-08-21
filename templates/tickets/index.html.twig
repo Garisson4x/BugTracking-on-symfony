@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Tickets index</h1>
 
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
@@ -45,5 +45,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('tickets_new') }}">Create new</a>
+    <a class="btn btn-success" href="{{ path('tickets_new') }}">Create new</a>
 {% endblock %}
