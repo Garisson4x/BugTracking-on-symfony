@@ -48,7 +48,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for ticket in tickets if project.id == ticket.project.id %}
+        {% for ticket in project.tickets %}
             <tr>
                 <td>{{ ticket.id }}</td>
                 <td>{{ ticket.title }}</td>

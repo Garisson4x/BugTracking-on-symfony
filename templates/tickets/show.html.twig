@@ -51,4 +51,11 @@
     <a href="{{ path('tickets_edit', {'project_id': ticket.project.id, 'id': ticket.id}) }}">edit</a>
 
     {{ include('tickets/_delete_form.html.twig') }}
+
+    <h1>Comments</h1>
+      {% for comment in comments %}
+        <div>Author: {{ comment.author }}</div>
+        <div> {{ comment.context }} </div>
+      {% endfor %}
+    {{ render(controller('App\\Controller\\CommentsController::new', {'ticket_id': ticket.id}))}}
 {% endblock %}

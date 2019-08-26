@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Projects{% endblock %}
+
+{% block body %}
+<h2> add comment</h2>
+{{ form_start(form) }}
+<div class="form-group">
+    <label for="textarea">{{ form_label(form.author) }}</label><br>
+    {{ form_widget(form.author) }}
+  </div>
+  <div class="form-group">
+    <label for="textarea">{{ form_label(form.context) }}</label><br>
+    {{ form_widget(form.context) }}
+  </div>
+  <button type="submit">Save</button>
+  {{ form_end(form) }}
+</div>

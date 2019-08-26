@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comments;
+use App\Form\CommentsType;
+use App\Repository\CommentsRepository;
 use App\Entity\Projects;
 use App\Form\ProjectsType;
 use App\Repository\ProjectsRepository;
@@ -58,10 +61,11 @@ class TicketsController extends AbstractController
     /**
      * @Route("/{id}", name="tickets_show", methods={"GET"})
      */
-    public function show(Tickets $ticket): Response
+    public function show(Tickets $ticket, CommentsRepository $CommentsRepository): Response
     {
         return $this->render('tickets/show.html.twig', [
             'ticket' => $ticket,
+            'comments' => $CommentsRepository->findAll(),
         ]);
     }
 
