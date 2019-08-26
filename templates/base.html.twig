@@ -12,10 +12,35 @@
             border-radius: 25px;
             border: 6px solid;
           }
+          header {
+	          background-color: #FFE4C4;
+	          border-bottom-left-radius: 10px;
+	          border-bottom-right-radius: 10px;
+            margin-bottom: 30px;
+	          display: flex;
+          }
+	        .quit {
+	          margin-left: auto;
+	          padding: 30px;
+          }
+          .logo {
+          	font-size: 25px;
+          	font-family: 'Comfortaa', cursive;
+          	padding: 25px;
+          	color: #b2b2b2;
+          }
         </style>
         {% endblock %}
     </head>
     <body>
+      <header>
+        <div class="logo">
+            <a href="/projects">Bugtracking</a>
+        </div>
+        <div class="quit">
+            <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+      </header>
       <div class="container">
         {% block body %}{% endblock %}
         {% block javascripts %}
