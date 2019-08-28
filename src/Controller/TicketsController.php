@@ -106,4 +106,31 @@ class TicketsController extends AbstractController
 
         return $this->redirectToRoute('tickets_index');
     }
+
+    /**
+     * @Route("/{ticket_id}", name="comments_new", methods={"GET","POST"})
+     */
+    public function newComment(Request $request): Response
+    {
+        $ticketId = $request->attributes->get('ticket_id');
+        $comment = new Comments();
+        $form = $this->createForm(CommentsType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $ticket = $this->getDoctrine()->getRepository(Tickets::class)->find($ticketId);
+            $ticket->setProject($project);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('tickets_show', ['id' => $ticketId]);
+        }
+
+        return $this->render('tickets/show.html.twig', [
+            'comment' => $comment,
+            'form' => $form->createView(),
+            'ticket_id' => $ticketId,
+        ]);
+    }
 }

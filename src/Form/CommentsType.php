@@ -14,8 +14,6 @@ class CommentsType extends AbstractType
         $builder
             ->add('author')
             ->add('context')
-            ->add('created_at')
-            ->add('updated_at')
             ->add('ticket')
         ;
     }

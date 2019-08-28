@@ -18,8 +18,6 @@ class TicketsType extends AbstractType
             ->add('desription')
             ->add('file')
             ->add('file_name')
-            ->add('created_at')
-            ->add('updated_at')
         ;
     }
 

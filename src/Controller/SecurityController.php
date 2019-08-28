@@ -2,13 +2,26 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SecurityController extends AbstractController
 {
+
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * @Route("/login", name="app_login")
      */
@@ -27,7 +40,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/logout", name="app_logout"), methods={"GET","POST"})
      */
     public function logout()
     {
@@ -37,8 +50,26 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="to_register")
      */
-    public function load(AuthenticationUtils $authenticationUtils)
+    public function load(UserPasswordEncoderInterface $passwordEncoder, Request $request)
     {
-        return $this->render('security/register.html.twig');
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('security/register.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
+
+
 }

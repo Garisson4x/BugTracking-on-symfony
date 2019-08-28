@@ -37,9 +37,11 @@
         <div class="logo">
             <a href="/projects">Bugtracking</a>
         </div>
-        <div class="quit">
-            <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
+        {% if app.user %}
+            <div class="quit">
+                {{ app.user.name }} <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
       </header>
       <div class="container">
         {% block body %}{% endblock %}

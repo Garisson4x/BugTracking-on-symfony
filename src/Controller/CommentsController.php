@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/projects/{project_id}/tickets/{ticket_id}")
+ * @Route("/projects/{project_id}/tickets/")
  */
 class CommentsController extends AbstractController
 {
@@ -27,7 +27,7 @@ class CommentsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="comments_new", methods={"GET","POST"})
+     * @Route("/{ticket_id}", name="comments_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -46,7 +46,7 @@ class CommentsController extends AbstractController
             return $this->redirectToRoute('tickets_show', ['id' => $ticketId]);
         }
 
-        return $this->render('comments/_form.html.twig', [
+        return $this->render('tickets/show.html.twig', [
             'comment' => $comment,
             'form' => $form->createView(),
             'ticket_id' => $ticketId,

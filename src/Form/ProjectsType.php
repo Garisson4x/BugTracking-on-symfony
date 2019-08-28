@@ -13,8 +13,6 @@ class ProjectsType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('created_at')
-            ->add('updated_at')
         ;
     }
 
