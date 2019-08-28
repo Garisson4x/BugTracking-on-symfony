@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * @Route("/projects/{project_id}/tickets")
@@ -59,11 +60,12 @@ class TicketsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="tickets_show", methods={"GET"})
+     * @Route("/{id}", name="tickets_show", methods={"GET","POST"})
      */
-    public function show(Tickets $ticket, CommentsRepository $CommentsRepository, Request $request): Response
+    public function show(Tickets $ticket, CommentsRepository $CommentsRepository, Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        $ticketId = $request->attributes->get('ticket_id');
+        $projectId = $request->attributes->get('project_id');
+        $ticketId = $request->attributes->get('id');
         $comment = new Comments();
         $form = $this->createForm(CommentsType::class, $comment);
         $form->handleRequest($request);
@@ -71,11 +73,13 @@ class TicketsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $ticket = $this->getDoctrine()->getRepository(Tickets::class)->find($ticketId);
-            $ticket->setProject($project);
+            $comment->setTicket($ticket);
+            $author = $authenticationUtils->getLastUsername();
+            $comment->setAuthor($author);
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tickets_show', ['id' => $ticketId]);
+            return $this->redirectToRoute('tickets_show', ['project_id' => $projectId, 'id' => $ticketId]);
         }
 
         return $this->render('tickets/show.html.twig', [
