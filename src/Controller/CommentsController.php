@@ -47,7 +47,7 @@ class CommentsController extends AbstractController
         }
 
         return $this->render('tickets/show.html.twig', [
-            'comment' => $comment,
+            'comments' => $comment,
             'form' => $form->createView(),
             'ticket_id' => $ticketId,
         ]);
