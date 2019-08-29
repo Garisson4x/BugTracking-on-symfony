@@ -2,10 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Tickets;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class TicketsType extends AbstractType
 {
@@ -13,8 +16,21 @@ class TicketsType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('type')
-            ->add('status')
+            ->add('type', ChoiceType::class, [
+              'choices' => [
+                  'bug' => ('bug'),
+                  'task' => ('task'),
+              ]
+
+            ])
+            ->add('status', ChoiceType::class, [
+              'choices' => [
+                  'new' => ('new'),
+                  'in progress' => ('in progress'),
+                  'testing' => ('testing'),
+                  'done' => ('done'),
+              ]
+            ])
             ->add('desription')
             ->add('file')
             ->add('file_name')

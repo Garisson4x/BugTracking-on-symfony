@@ -35,8 +35,6 @@
 
     {% if is_granted('ROLE_USER') %}
 
-        <a href="...">Delete</a>
-
         <a href="{{ path('projects_edit', {'id': project.id}) }}">edit</a>
 
         {{ include('projects/_delete_form.html.twig') }}

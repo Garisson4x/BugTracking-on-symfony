@@ -129,7 +129,7 @@ class TicketsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('tickets_index');
+        return $this->redirectToRoute('projects_index');
     }
 
 }
