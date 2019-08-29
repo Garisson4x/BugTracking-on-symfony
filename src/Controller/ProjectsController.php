@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-
+use App\Entity\User;
 use App\Entity\Projects;
 use App\Form\ProjectsType;
 use App\Repository\ProjectsRepository;
@@ -37,12 +37,14 @@ class ProjectsController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $user = $this->getUser();
         $project = new Projects();
         $form = $this->createForm(ProjectsType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $project->setCreator($user);
             $entityManager->persist($project);
             $entityManager->flush();
 

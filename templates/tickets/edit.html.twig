@@ -3,11 +3,13 @@
 {% block title %}Edit Tickets{% endblock %}
 
 {% block body %}
-    <h1>Edit Tickets</h1>
+  <div class="form">
+    <h1>Edit Ticket</h1>
 
     {{ include('tickets/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('projects_show', {'id': ticket.project.id}) }}">back to project</a>
 
     {{ include('tickets/_delete_form.html.twig') }}
+  </div>
 {% endblock %}

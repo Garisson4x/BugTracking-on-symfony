@@ -3,6 +3,7 @@
 {% block title %}Tickets index{% endblock %}
 
 {% block body %}
+  <div class="container">
     <h1>Tickets index</h1>
 
     <table class="table table-bordered">
@@ -46,4 +47,5 @@
     </table>
 
     <a class="btn btn-success" href="{{ path('tickets_new') }}">Create new</a>
+  </div>
 {% endblock %}

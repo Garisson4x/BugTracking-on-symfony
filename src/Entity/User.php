@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -37,6 +39,34 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=50)
      */
     private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Projects", mappedBy="creator")
+     */
+    private $projects;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Tickets", mappedBy="creator")
+     */
+    private $tickets;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comments", mappedBy="author")
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Tickets", mappedBy="assigned")
+     */
+    private $ticket_as;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->ticket_as = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -124,6 +154,130 @@ class User implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Projects[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Projects $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Projects $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+            // set the owning side to null (unless already changed)
+            if ($project->getCreator() === $this) {
+                $project->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tickets[]
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Tickets $ticket): self
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets[] = $ticket;
+            $ticket->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Tickets $ticket): self
+    {
+        if ($this->tickets->contains($ticket)) {
+            $this->tickets->removeElement($ticket);
+            // set the owning side to null (unless already changed)
+            if ($ticket->getCreator() === $this) {
+                $ticket->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tickets[]
+     */
+    public function getTicketAs(): Collection
+    {
+        return $this->ticket_as;
+    }
+
+    public function addTicketA(Tickets $ticketA): self
+    {
+        if (!$this->ticket_as->contains($ticketA)) {
+            $this->ticket_as[] = $ticketA;
+            $ticketA->setAssigned($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicketA(Tickets $ticketA): self
+    {
+        if ($this->ticket_as->contains($ticketA)) {
+            $this->ticket_as->removeElement($ticketA);
+            // set the owning side to null (unless already changed)
+            if ($ticketA->getAssigned() === $this) {
+                $ticketA->setAssigned(null);
+            }
+        }
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Comments;
 use App\Form\CommentsType;
 use App\Repository\CommentsRepository;
@@ -37,6 +38,7 @@ class TicketsController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $user = $this->getUser();
         $projectId = $request->attributes->get('project_id');
         $ticket = new Tickets();
         $form = $this->createForm(TicketsType::class, $ticket);
@@ -46,6 +48,8 @@ class TicketsController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $project = $this->getDoctrine()->getRepository(Projects::class)->find($projectId);
             $ticket->setProject($project);
+            $ticket->setCreator($user);
+            $ticket->setAssigned($user);
             $entityManager->persist($ticket);
             $entityManager->flush();
 
@@ -64,6 +68,7 @@ class TicketsController extends AbstractController
      */
     public function show(Tickets $ticket, CommentsRepository $CommentsRepository, Request $request, AuthenticationUtils $authenticationUtils): Response
     {
+        $user = $this->getUser();
         $projectId = $request->attributes->get('project_id');
         $ticketId = $request->attributes->get('id');
         $comment = new Comments();
@@ -74,8 +79,7 @@ class TicketsController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $ticket = $this->getDoctrine()->getRepository(Tickets::class)->find($ticketId);
             $comment->setTicket($ticket);
-            $author = $authenticationUtils->getLastUsername();
-            $comment->setAuthor($author);
+            $comment->setAuthor($user);
             $entityManager->persist($comment);
             $entityManager->flush();
 

@@ -68,6 +68,18 @@ class Tickets
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tickets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $creator;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ticket_as")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $assigned;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -213,6 +225,30 @@ class Tickets
                 $comment->setTicket(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    public function getAssigned(): ?User
+    {
+        return $this->assigned;
+    }
+
+    public function setAssigned(?User $assigned): self
+    {
+        $this->assigned = $assigned;
 
         return $this;
     }

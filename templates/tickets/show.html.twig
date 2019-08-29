@@ -3,6 +3,7 @@
 {% block title %}Tickets{% endblock %}
 
 {% block body %}
+  <div class="container">
     <h1>Ticket</h1>
 
     <table class="table table-bordered">
@@ -20,8 +21,16 @@
                 <td>{{ ticket.type }}</td>
             </tr>
             <tr>
+                <th>Creator</th>
+                <td>{{ ticket.creator.name }}</td>
+            </tr>
+            <tr>
                 <th>Status</th>
                 <td>{{ ticket.status }}</td>
+            </tr>
+            <tr>
+                <th>Assigned</th>
+                <td>{{ ticket.assigned.name }}</td>
             </tr>
             <tr>
                 <th>Desription</th>
@@ -54,7 +63,7 @@
 
     <h1>Comments</h1>
       {% for comment in ticket.comments %}
-        <div>Author: {{ comment.author }}</div>
+        <div>Author: {{ comment.author.name }}</div>
         <div> {{ comment.context }} </div>
       {% endfor %}
    <h2> add comment</h2>
@@ -67,4 +76,5 @@
       <button type="submit">Save</button>
       {{ form_end(form) }}
     </div>
+  </div>
 {% endblock %}

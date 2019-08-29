@@ -3,6 +3,7 @@
 {% block title %}Projects{% endblock %}
 
 {% block body %}
+  <div class="container">
     <h1>Project</h1>
 
     <table class="table table-bordered">
@@ -14,6 +15,10 @@
             <tr>
                 <th>Title</th>
                 <td>{{ project.title }}</td>
+            </tr>
+            <tr>
+                <th>Creator</th>
+                <td>{{ project.creator.name }}</td>
             </tr>
             <tr>
                 <th>Created_at</th>
@@ -46,7 +51,9 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Type</th>
+                <th>Creator</th>
                 <th>Status</th>
+                <th>Assigned</th>
                 <th>Desription</th>
                 <th>File</th>
                 <th>File_name</th>
@@ -59,7 +66,9 @@
                 <td>{{ ticket.id }}</td>
                 <td>{{ ticket.title }}</td>
                 <td>{{ ticket.type }}</td>
+                <td>{{ ticket.creator.name }}</td>
                 <td>{{ ticket.status }}</td>
+                <td>{{ ticket.assigned.name }}</td>
                 <td>{{ ticket.desription }}</td>
                 <td>{{ ticket.file }}</td>
                 <td>{{ ticket.fileName }}</td>
@@ -77,4 +86,5 @@
     </table>
 
     <a class="btn btn-success" href="{{ path('tickets_new', {'project_id': project.id}) }}">Create new</a>
+  </div>
 {% endblock %}
