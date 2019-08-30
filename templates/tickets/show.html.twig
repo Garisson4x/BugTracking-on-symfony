@@ -38,11 +38,7 @@
             </tr>
             <tr>
                 <th>File</th>
-                <td>{{ ticket.file }}</td>
-            </tr>
-            <tr>
-                <th>File_name</th>
-                <td>{{ ticket.fileName }}</td>
+                <td><a href="{{ asset('uploads/file/' ~ ticket.file) }}">{{ ticket.FileName }}</a></td>
             </tr>
             <tr>
                 <th>Created_at</th>

@@ -23,7 +23,7 @@ final class Version20190829083652 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE tickets ADD assigned_id INT NOT NULL');
-        $this->addSql('ALTER TABLE tickets ADD CONSTRAINT FK_54469DF4E1501A05 FOREIGN KEY (assigned_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE tickets ADD CONSTRAINT FK_54469DF4E1501A05 FOREIGN KEY (assigned_id) REFERENCES user (id) ON DELETE CASCADE ON UPDATE CASCADE');
         $this->addSql('CREATE INDEX IDX_54469DF4E1501A05 ON tickets (assigned_id)');
     }
 

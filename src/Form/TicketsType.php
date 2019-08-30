@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\User;
 use App\Entity\Tickets;
 use Symfony\Component\Form\AbstractType;
@@ -9,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints\File;
 
 class TicketsType extends AbstractType
 {
@@ -31,10 +34,16 @@ class TicketsType extends AbstractType
                   'done' => ('done'),
               ]
             ])
+            ->add('assigned', EntityType::class, [
+                  'class' => User::class,
+                  'choice_label' => 'name',
+            ])
             ->add('desription')
-            ->add('file')
-            ->add('file_name')
-        ;
+            ->add('file', FileType::class, [
+                'label' => 'File',
+                'mapped' => false,
+                'required' => false,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

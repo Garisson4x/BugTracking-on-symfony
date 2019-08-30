@@ -23,13 +23,13 @@ final class Version20190829075331 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE comments ADD author_id INT NOT NULL');
-        $this->addSql('ALTER TABLE comments ADD CONSTRAINT FK_5F9E962AF675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE comments ADD CONSTRAINT FK_5F9E962AF675F31B FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE CASCADE ON UPDATE CASCADE');
         $this->addSql('CREATE INDEX IDX_5F9E962AF675F31B ON comments (author_id)');
         $this->addSql('ALTER TABLE projects ADD creator_id INT NOT NULL');
-        $this->addSql('ALTER TABLE projects ADD CONSTRAINT FK_5C93B3A461220EA6 FOREIGN KEY (creator_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE projects ADD CONSTRAINT FK_5C93B3A461220EA6 FOREIGN KEY (creator_id) REFERENCES user (id) ON DELETE CASCADE ON UPDATE CASCADE');
         $this->addSql('CREATE INDEX IDX_5C93B3A461220EA6 ON projects (creator_id)');
         $this->addSql('ALTER TABLE tickets ADD creator_id INT NOT NULL');
-        $this->addSql('ALTER TABLE tickets ADD CONSTRAINT FK_54469DF461220EA6 FOREIGN KEY (creator_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE tickets ADD CONSTRAINT FK_54469DF461220EA6 FOREIGN KEY (creator_id) REFERENCES user (id) ON DELETE CASCADE ON UPDATE CASCADE');
         $this->addSql('CREATE INDEX IDX_54469DF461220EA6 ON tickets (creator_id)');
     }
 

@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @Route("/projects/{project_id}/tickets")
@@ -46,10 +48,28 @@ class TicketsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $File = $form['file']->getData();
+
+            if ($File) {
+                $originalFilename = pathinfo($File->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$File->guessExtension();
+
+                try {
+                    $File->move(
+                        $this->getParameter('file_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $ticket->setFileName($originalFilename);
+                $ticket->setFile($newFilename);
+            }
             $project = $this->getDoctrine()->getRepository(Projects::class)->find($projectId);
             $ticket->setProject($project);
             $ticket->setCreator($user);
-            $ticket->setAssigned($user);
             $entityManager->persist($ticket);
             $entityManager->flush();
 
