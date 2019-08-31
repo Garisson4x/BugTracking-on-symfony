@@ -39,6 +39,7 @@ class TicketsType extends AbstractType
                   'choice_label' => 'name',
             ])
             ->add('desription')
+            ->add('Tags')
             ->add('file', FileType::class, [
                 'label' => 'File',
                 'mapped' => false,

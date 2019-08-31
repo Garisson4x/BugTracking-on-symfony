@@ -80,9 +80,15 @@ class Tickets
      */
     private $assigned;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="ticket")
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -249,6 +255,34 @@ class Tickets
     public function setAssigned(?User $assigned): self
     {
         $this->assigned = $assigned;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addTicket($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+            $tag->removeTicket($this);
+        }
 
         return $this;
     }
