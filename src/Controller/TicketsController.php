@@ -5,6 +5,7 @@ namespace App\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Tag;
+use App\Repository\TagRepository;
 use App\Entity\User;
 use App\Entity\Comments;
 use App\Form\CommentsType;
@@ -46,12 +47,14 @@ class TicketsController extends AbstractController
         $user = $this->getUser();
         $projectId = $request->attributes->get('project_id');
         $ticket = new Tickets();
+        $tag = new Tag();
         $form = $this->createForm(TicketsType::class, $ticket);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $File = $form['file']->getData();
+            $tags = "red";
 
             if ($File) {
                 $originalFilename = pathinfo($File->getClientOriginalName(), PATHINFO_FILENAME);
@@ -73,6 +76,7 @@ class TicketsController extends AbstractController
             $project = $this->getDoctrine()->getRepository(Projects::class)->find($projectId);
             $ticket->setProject($project);
             $ticket->setCreator($user);
+            $ticket->addTag($tag, $tags);
             $entityManager->persist($ticket);
             $entityManager->flush();
 

@@ -81,7 +81,7 @@ class Tickets
     private $assigned;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="ticket")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="ticket", cascade={"persist"})
      */
     private $tags;
 

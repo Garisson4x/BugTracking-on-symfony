@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\User;
@@ -39,7 +40,9 @@ class TicketsType extends AbstractType
                   'choice_label' => 'name',
             ])
             ->add('desription')
-            ->add('Tags')
+            ->add('Tags', TextType::class, [
+                'mapped' => false,
+            ])
             ->add('file', FileType::class, [
                 'label' => 'File',
                 'mapped' => false,
