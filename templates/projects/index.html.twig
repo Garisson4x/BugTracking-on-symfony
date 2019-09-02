@@ -23,7 +23,9 @@
                 <td>{{ project.creator.name }}</td>
                 <td>
                     <a href="{{ path('projects_show', {'id': project.id}) }}">show</a>
+                    {% if app.user.id == project.creator.id %}
                     <a href="{{ path('projects_edit', {'id': project.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

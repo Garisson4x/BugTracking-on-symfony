@@ -50,11 +50,21 @@ class TicketsController extends AbstractController
         $tag = new Tag();
         $form = $this->createForm(TicketsType::class, $ticket);
         $form->handleRequest($request);
+        $tags = explode(",", $form['Tags']->getData());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            for ($i = 0; $i < count($tags); $i++) {
+              $tag = $this->getDoctrine()->getRepository(Tag::class)->find(trim($tags[$i]));
+              if ($tag == 0) {
+                $tag = new Tag();
+                $tag->setWord(trim($tags[$i]));
+                $ticket->addTag($tag);
+              }
+            }
+
             $File = $form['file']->getData();
-            $tags = "red";
 
             if ($File) {
                 $originalFilename = pathinfo($File->getClientOriginalName(), PATHINFO_FILENAME);
@@ -76,9 +86,10 @@ class TicketsController extends AbstractController
             $project = $this->getDoctrine()->getRepository(Projects::class)->find($projectId);
             $ticket->setProject($project);
             $ticket->setCreator($user);
-            $ticket->addTag($tag, $tags);
+
             $entityManager->persist($ticket);
             $entityManager->flush();
+
 
             return $this->redirectToRoute('projects_show', ['id' => $projectId]);
         }
@@ -126,13 +137,23 @@ class TicketsController extends AbstractController
      */
     public function edit(Request $request, Tickets $ticket): Response
     {
+        $ticketId = $request->attributes->get('id');
         $projectId = $request->attributes->get('project_id');
         $form = $this->createForm(TicketsType::class, $ticket);
         $form->handleRequest($request);
+        $tags = explode(",", $form['Tags']->getData());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $project = $this->getDoctrine()->getRepository(Projects::class)->find($projectId);
             $ticket->setProject($project);
+            for ($i = 0; $i < count($tags); $i++) {
+              $tag = $this->getDoctrine()->getRepository(Tag::class)->find(trim($tags[$i]));
+              if ($tag == 0) {
+                $tag = new Tag();
+                $tag->setWord(trim($tags[$i]));
+                $ticket->addTag($tag);
+              }
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('projects_show', ['id' => $projectId]);

@@ -25,7 +25,6 @@ class Tag
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tickets", inversedBy="tags")
-     * @ORM\JoinTable(name="relation")
      */
     private $ticket;
 

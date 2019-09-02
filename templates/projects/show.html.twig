@@ -33,7 +33,7 @@
 
     <a href="{{ path('projects_index') }}">back to list</a>
 
-    {% if is_granted('ROLE_USER') %}
+    {% if app.user.id == project.creator.id %}
 
         <a href="{{ path('projects_edit', {'id': project.id}) }}">edit</a>
 
@@ -70,7 +70,9 @@
                 <td><a href="{{ asset('uploads/file/' ~ ticket.file) }}">{{ ticket.FileName }}</a></td>
                 <td>
                     <a href="{{ path('tickets_show', {'project_id': project.id, 'id': ticket.id}) }}">show</a>
+                    {% if app.user.id == ticket.creator.id %}
                     <a href="{{ path('tickets_edit', {'project_id': project.id, 'id': ticket.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

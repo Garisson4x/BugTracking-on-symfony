@@ -82,8 +82,9 @@ class Tickets
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="ticket", cascade={"persist"})
+     * @ORM\JoinTable(name="tag_ticket")
      */
-    private $tags;
+    protected $tags;
 
     public function __construct()
     {
@@ -272,6 +273,15 @@ class Tickets
         if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
             $tag->addTicket($this);
+        }
+
+        return $this;
+    }
+
+    public function addTags(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
         }
 
         return $this;

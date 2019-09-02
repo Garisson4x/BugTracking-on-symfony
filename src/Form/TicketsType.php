@@ -6,6 +6,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\User;
+use App\Entity\Tag;
 use App\Entity\Tickets;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,6 +43,7 @@ class TicketsType extends AbstractType
             ->add('desription')
             ->add('Tags', TextType::class, [
                 'mapped' => false,
+                'required' => false,
             ])
             ->add('file', FileType::class, [
                 'label' => 'File',

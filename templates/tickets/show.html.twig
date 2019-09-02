@@ -53,20 +53,29 @@
 
     <a href="{{ path('projects_show', {'id': ticket.project.id}) }}">back to project</a>
 
+    {% if app.user.id == ticket.creator.id %}
     <a href="{{ path('tickets_edit', {'project_id': ticket.project.id, 'id': ticket.id}) }}">edit</a>
 
     {{ include('tickets/_delete_form.html.twig') }}
+    {% endif %}
+
+    <h1>Tags</h1>
+
+      {% for tag in ticket.tags %}
+        <a> {{ tag.word }} </a>
+      {% endfor %}
 
     <h1>Comments</h1>
       {% for comment in ticket.comments %}
         <div>Author: {{ comment.author.name }}</div>
         <div> {{ comment.context }} </div>
       {% endfor %}
+
+
    <h2> add comment</h2>
     {{ form_start(form) }}
     <div class="form-group">
       <div class="form-group">
-        <label for="textarea">{{ form_label(form.context) }}</label><br>
         {{ form_widget(form.context) }}
       </div>
       <button type="submit">Save</button>
